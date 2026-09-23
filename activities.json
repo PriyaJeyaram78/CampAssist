@@ -1,0 +1,58 @@
+[
+  {
+    "id": "capture_flag",
+    "name": "Capture the Flag",
+    "ageMin": 10,
+    "ageMax": 14,
+    "minDuration": 25,
+    "maxDuration": 40,
+    "indoor": false,
+    "groupSizeMin": 10,
+    "groupSizeMax": 30,
+    "materials": ["2 flags", "cones or markers"],
+    "description": "Two teams try to capture the other team's flag and bring it back to their side without being tagged.",
+    "energyLevel": "High"
+  },
+  {
+    "id": "story_circle",
+    "name": "Story Circle",
+    "ageMin": 8,
+    "ageMax": 12,
+    "minDuration": 10,
+    "maxDuration": 20,
+    "indoor": true,
+    "groupSizeMin": 5,
+    "groupSizeMax": 20,
+    "materials": [],
+    "description": "Campers sit in a circle and take turns adding one sentence to a shared story.",
+    "energyLevel": "Low"
+  },
+  {
+    "id": "nature_scavenger",
+    "name": "Nature Scavenger Hunt",
+    "ageMin": 9,
+    "ageMax": 13,
+    "minDuration": 20,
+    "maxDuration": 40,
+    "indoor": false,
+    "groupSizeMin": 5,
+    "groupSizeMax": 25,
+    "materials": ["Scavenger list", "Pencils"],
+    "description": "Campers work in small groups to find items from a nature-themed list around camp.",
+    "energyLevel": "Medium"
+  },
+  {
+    "id": "indoor_charades",
+    "name": "Indoor Charades",
+    "ageMin": 8,
+    "ageMax": 14,
+    "minDuration": 15,
+    "maxDuration": 30,
+    "indoor": true,
+    "groupSizeMin": 4,
+    "groupSizeMax": 20,
+    "materials": ["Paper", "Pencils"],
+    "description": "Campers act out words or phrases while others guess.",
+    "energyLevel": "Medium"
+  }
+]

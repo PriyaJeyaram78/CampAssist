@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CampAssist – 4‑H Counselor Assistant</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root {
+      --primary: #2a7b4f;
+      --primary-light: #4ca06f;
+      --accent: #f4b400;
+      --bg: #f7f7f7;
+      --text: #222;
+      --light-text: #555;
+      --border: #ddd;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    header {
+      background: var(--primary);
+      color: white;
+      padding: 16px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+
+    header p {
+      margin: 4px 0 0;
+      font-size: 0.9rem;
+      color: #e3f5ec;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 16px;
+    }
+
+    .tab {
+      flex: 1;
+      text-align: center;
+      padding: 10px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      border-bottom: 2px solid transparent;
+      background: white;
+    }
+
+    .tab.active {
+      border-bottom-color: var(--primary);
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    .tab:not(.active):hover {
+      background: #f0f0f0;
+    }
+
+    .tab-content {
+      display: none;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 16px;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    h2 {
+      margin-top: 0;
+      font-size: 1.3rem;
+    }
+
+    .section-intro {
+      font-size: 0.9rem;
+      color: var(--light-text);
+      margin-bottom: 12px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.9rem;
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+
+    select, input[type="number"], input[type="text"], input[type="time"] {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      font-size: 0.9rem;
+    }
+
+    button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    button:hover {
+      background: var(--primary-light);
+    }
+
+    .results {
+      margin-top: 16px;
+    }
+
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 10px;
+      margin-bottom: 10px;
+      background: #fafafa;
+    }
+
+    .card h3 {
+      margin: 0 0 4px;
+      font-size: 1rem;
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      padding: 2px 6px;
+      border-radius: 10px;
+      background: #e9f5ef;
+      color: var(--primary);
+      margin-right: 4px;
+      margin-bottom: 4px;
+    }
+
+    ul {
+      padding-left: 18px;
+      margin: 4px 0 0;
+    }
+
+    .small {
+      font-size: 0.8rem;
+      color: var(--light-text);
+    }
+
+    .flex-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .flex-row > div {
+      flex: 1;
+      min-width: 120px;
+    }
+
+    .reminder-list {
+      margin-top: 10px;
+    }
+
+    .reminder-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 8px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      background: #fafafa;
+      margin-bottom: 6px;
+      font-size: 0.9rem;
+    }
+
+    .reminder-item span.time {
+      font-weight: 600;
+      color: var(--primary);
+      margin-right: 8px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 10px;
+      font-size: 0.7rem;
+      background: var(--accent);
+      color: #333;
+      margin-left: 4px;
+    }
+
+    @media (max-width: 600px) {
+      .tab {
+        font-size: 0.85rem;
+        padding: 8px;
+      }
+
+      header h1 {
+        font-size: 1.3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>CampAssist</h1>
+    <p>A simple assistant to support 4‑H camp counselors with activities, guidance, and reminders.</p>
+  </header>
+
+  <div class="container">
+    <!-- Tabs -->
+    <div class="tabs">
+      <div class="tab active" data-tab="activities">Activity Suggestions</div>
+      <div class="tab" data-tab="conflicts">Conflict Guidance</div>
+      <div class="tab" data-tab="reminders">Reminders</div>
+    </div>
+
+    <!-- Activity Suggestions Tab -->
+    <div id="activities" class="tab-content active">
+      <h2>Activity Suggestions</h2>
+      <p class="section-intro">
+        Choose the camper age, time available, and setting. CampAssist will suggest activities that fit.
+      </p>
+      <div class="flex-row">
+        <div>
+          <label for="age">Camper Age</label>
+          <input type="number" id="age" min="5" max="18" value="11">
+        </div>
+        <div>
+          <label for="duration">Time Available (minutes)</label>
+          <input type="number" id="duration" min="5" max="120" value="30">
+        </div>
+        <div>
+          <label for="indoor">Setting</label>
+          <select id="indoor">
+            <option value="true">Indoors</option>
+            <option value="false" selected>Outdoors</option>
+          </select>
+        </div>
+      </div>
+      <button id="suggestActivitiesBtn">Suggest Activities</button>
+      <div class="results" id="activityResults"></div>
+    </div>
+
+    <!-- Conflict Guidance Tab -->
+    <div id="conflicts" class="tab-content">
+      <h2>Conflict & Situation Guidance</h2>
+      <p class="section-intro">
+        Select a common camper situation to see simple, step-by-step guidance aligned with camp values.
+      </p>
+      <label for="conflictSelect">Choose a situation</label>
+      <select id="conflictSelect">
+        <!-- Options will be filled by JS -->
+      </select>
+      <div class="results" id="conflictDetails"></div>
+      <p class="small">
+        Note: For serious concerns (injury, bullying, safety issues), always follow camp policy and contact senior staff.
+      </p>
+    </div>
+
+    <!-- Reminders Tab -->
+    <div id="reminders" class="tab-content">
+      <h2>Reminders</h2>
+      <p class="section-intro">
+        Add simple reminders to help you remember hydration breaks, headcounts, and transitions.
+      </p>
+      <label for="reminderText">Reminder</label>
+      <input type="text" id="reminderText" placeholder="e.g., Water break" />
+
+      <label for="reminderTime">Time</label>
+      <input type="time" id="reminderTime" />
+
+      <button id="addReminderBtn">Add Reminder</button>
+
+      <div class="results">
+        <h3>Upcoming Reminders</h3>
+        <div id="reminderList" class="reminder-list"></div>
+        <p class="small">
+          Reminders are stored in this browser only (using local storage). Check camp schedules and policies for official times.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Globals for loaded data
+    let activities = [];
+    let conflicts = [];
+
+    // -----------------------
+    // Load JSON Data with fetch
+    // -----------------------
+    async function loadData() {
+      try {
+        const [activitiesRes, conflictsRes] = await Promise.all([
+          fetch('activities.json'),
+          fetch('conflicts.json')
+        ]);
+
+        if (!activitiesRes.ok || !conflictsRes.ok) {
+          throw new Error('Failed to load data files.');
+        }
+
+        activities = await activitiesRes.json();
+        conflicts = await conflictsRes.json();
+
+        initConflictOptions();
+      } catch (err) {
+        console.error(err);
+        alert('Error loading activity or conflict data. Check your JSON files and paths.');
+      }
+    }
+
+    // -----------------------
+    // Tab Switching
+    // -----------------------
+    const tabs = document.querySelectorAll('.tab');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const targetId = tab.getAttribute('data-tab');
+
+        tabs.forEach(t => t.classList.remove('active'));
+        tabContents.forEach(c => c.classList.remove('active'));
+
+        tab.classList.add('active');
+        document.getElementById(targetId).classList.add('active');
+      });
+    });
+
+    // -----------------------
+    // Activity Suggestions
+    // -----------------------
+    const suggestBtn = document.getElementById('suggestActivitiesBtn');
+    const activityResults = document.getElementById('activityResults');
+
+    function suggestActivitiesList(list, age, duration, indoor) {
+      return list.filter(a =>
+        age >= a.ageMin &&
+        age <= a.ageMax &&
+        duration >= a.minDuration &&
+        duration <= a.maxDuration &&
+        a.indoor === indoor
+      );
+    }
+
+    suggestBtn.addEventListener('click', () => {
+      if (!activities || activities.length === 0) {
+        activityResults.innerHTML = '<p>Activities are still loading. Please try again in a moment.</p>';
+        return;
+      }
+
+      const age = parseInt(document.getElementById('age').value, 10);
+      const duration = parseInt(document.getElementById('duration').value, 10);
+      const indoor = document.getElementById('indoor').value === 'true';
+
+      const matches = suggestActivitiesList(activities, age, duration, indoor);
+
+      activityResults.innerHTML = '';
+
+      if (matches.length === 0) {
+        activityResults.innerHTML = '<p>No exact matches found. Try adjusting the age, time, or setting.</p>';
+        return;
+      }
+
+      matches.slice(0, 3).forEach(a => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <h3>${a.name}</h3>
+          <div class="small">
+            <span class="tag">${a.indoor ? 'Indoors' : 'Outdoors'}</span>
+            <span class="tag">${a.energyLevel} energy</span>
+            <span class="tag">${a.minDuration}–${a.maxDuration} min</span>
+            <span class="tag">Ages ${a.ageMin}–${a.ageMax}</span>
+          </div>
+          <p>${a.description}</p>
+          <p class="small"><strong>Materials:</strong> ${a.materials && a.materials.length ? a.materials.join(', ') : 'None'}</p>
+        `;
+        activityResults.appendChild(card);
+      });
+    });
+
+    // -----------------------
+    // Conflict Guidance
+    // -----------------------
+    const conflictSelect = document.getElementById('conflictSelect');
+    const conflictDetails = document.getElementById('conflictDetails');
+
+    function initConflictOptions() {
+      conflictSelect.innerHTML = '';
+
+      if (!conflicts || conflicts.length === 0) {
+        const opt = document.createElement('option');
+        opt.textContent = 'No conflict scenarios available';
+        conflictSelect.appendChild(opt);
+        conflictDetails.innerHTML = '<p>Conflict data not loaded.</p>';
+        return;
+      }
+
+      conflicts.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c.id;
+        opt.textContent = c.title;
+        conflictSelect.appendChild(opt);
+      });
+
+      conflictSelect.value = conflicts[0].id;
+      showConflictDetails(conflicts[0].id);
+    }
+
+    function showConflictDetails(id) {
+      const conflict = conflicts.find(c => c.id === id);
+      conflictDetails.innerHTML = '';
+
+      if (!conflict) return;
+
+      const card = document.createElement('div');
+      card.className = 'card';
+      const stepsHtml = conflict.steps
+        .map(step => `<li>${step}</li>`)
+        .join('');
+
+      card.innerHTML = `
+        <h3>${conflict.title}</h3>
+        <p>${conflict.description}</p>
+        <ol>${stepsHtml}</ol>
+      `;
+      conflictDetails.appendChild(card);
+    }
+
+    conflictSelect.addEventListener('change', () => {
+      showConflictDetails(conflictSelect.value);
+    });
+
+    // -----------------------
+    // Reminders (localStorage)
+    // -----------------------
+    const reminderTextInput = document.getElementById('reminderText');
+    const reminderTimeInput = document.getElementById('reminderTime');
+    const addReminderBtn = document.getElementById('addReminderBtn');
+    const reminderListDiv = document.getElementById('reminderList');
+
+    const REMINDER_KEY = 'campassist_reminders';
+
+    function loadReminders() {
+      try {
+        const stored = localStorage.getItem(REMINDER_KEY);
+        return stored ? JSON.parse(stored) : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function saveReminders(reminders) {
+      localStorage.setItem(REMINDER_KEY, JSON.stringify(reminders));
+    }
+
+    function renderReminders() {
+      const reminders = loadReminders();
+      reminderListDiv.innerHTML = '';
+
+      if (reminders.length === 0) {
+        reminderListDiv.innerHTML = '<p class="small">No reminders yet. Add one above.</p>';
+        return;
+      }
+
+      // Sort by time string
+      reminders.sort((a, b) => a.time.localeCompare(b.time));
+
+      const now = new Date();
+      const nowMinutes = now.getHours() * 60 + now.getMinutes();
+
+      reminders.forEach((r, idx) => {
+        const item = document.createElement('div');
+        item.className = 'reminder-item';
+
+        // Determine if upcoming (within 60 minutes)
+        let badge = '';
+        if (r.time) {
+          const [h, m] = r.time.split(':').map(Number);
+          const minutes = h * 60 + m;
+          if (minutes >= nowMinutes && minutes - nowMinutes <= 60) {
+            badge = '<span class="badge">Soon</span>';
+          }
+        }
+
+        item.innerHTML = `
+          <div>
+            <span class="time">${r.time || '--:--'}</span>
+            ${badge}
+            <span>${r.text}</span>
+          </div>
+          <button data-index="${idx}" class="delete-reminder-btn">Delete</button>
+        `;
+        reminderListDiv.appendChild(item);
+      });
+
+      // Attach delete handlers
+      document.querySelectorAll('.delete-reminder-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const index = parseInt(btn.getAttribute('data-index'), 10);
+          const reminders = loadReminders();
+          reminders.splice(index, 1);
+          saveReminders(reminders);
+          renderReminders();
+        });
+      });
+    }
+
+    addReminderBtn.addEventListener('click', () => {
+      const text = reminderTextInput.value.trim();
+      const time = reminderTimeInput.value;
+
+      if (!text) {
+        alert('Please enter a reminder description.');
+        return;
+      }
+
+      const reminders = loadReminders();
+      reminders.push({ text, time });
+      saveReminders(reminders);
+      reminderTextInput.value = '';
+      reminderTimeInput.value = '';
+      renderReminders();
+    });
+
+    // Initialize everything on load
+    renderReminders();
+    loadData();
+  </script>
+</body>
+</html>

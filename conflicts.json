@@ -1,0 +1,39 @@
+[
+  {
+    "id": "two_campers_arguing",
+    "title": "Two campers arguing",
+    "description": "Two campers are arguing loudly over a game or shared item.",
+    "steps": [
+      "Calmly approach and ask both campers to pause and take a breath.",
+      "Separate them slightly so they can cool down and feel heard.",
+      "Listen to each camper one at a time without taking sides.",
+      "Ask each camper to repeat what they heard the other person say.",
+      "Guide them to suggest a fair solution together (taking turns, sharing, or choosing a new activity).",
+      "End by thanking them for working it out and reminding them of camp respect rules."
+    ]
+  },
+  {
+    "id": "camper_left_out",
+    "title": "Camper feeling left out",
+    "description": "A camper is sitting alone or not being included in group activities.",
+    "steps": [
+      "Gently check in with the camper and ask how they are feeling.",
+      "Invite them to join a specific activity or give them a small helper role.",
+      "Pair them with a friendly camper or buddy for the next activity.",
+      "Watch the group for a few minutes and step in again if needed.",
+      "Talk briefly with the group about including everyone and being kind."
+    ]
+  },
+  {
+    "id": "camper_not_following_rules",
+    "title": "Camper not following rules",
+    "description": "A camper repeatedly breaks a clear camp rule during an activity.",
+    "steps": [
+      "Stop the behavior calmly and privately (away from an audience if possible).",
+      "Explain the rule and why it exists in simple, positive language.",
+      "Ask the camper to repeat the rule back in their own words.",
+      "Offer a choice: follow the rule and stay, or take a short break from the activity.",
+      "If the behavior continues, follow camp policy by involving a senior counselor or staff member."
+    ]
+  }
+]
